@@ -1,0 +1,14 @@
+<ul>
+    {% if backups|length > 0 %}
+    <li><strong>Deployed Packages and Backups</strong></li>
+    {% endif %}
+    {% for bc in backups %}
+    <li>
+        {% if bc.backup != null%}
+        <div>Backup :<a href="/wp-content/uploads/backup/{{ bc.backup }}">{{ bc.backup }}</a> <a data-filename="{{ bc.backup }}" class="detail">Detial</a></div>
+        {% endif %}
+        {% if bc.package != null%}
+        <div>Package :<a href="/wp-content/uploads/backup/{{ bc.package }}">{{ bc.package }}</a> <a data-filename="{{ bc.package }}" class="detail">Detial</a></div></li>
+        {% endif %}
+    {% endfor %}
+</ul>
