@@ -3,35 +3,43 @@ jQuery(function(){
     let $form = jQuery("#frmpackage");
     $form.validate();
     function loadDetail(self)
-    {
-            var data = new FormData();	
-            data.append('action', 'detail');
-            data.append('filename', jQuery(self).data("filename"));					
-            jQuery.ajax({
-                url: ajaxurl,
-                method: "POST",
-                data: data,
-                processData: false,
-                enctype: 'multipart/form-data',
-                contentType: false,						
-                success: function(response) {				 					
-                    jQuery("#frmpackage").trigger("reset");
-                    if(response.success)
+    {        
+        var data = new FormData();	
+        data.append('action', jQuery(self).attr("class"));
+        data.append('filename', jQuery(self).data("filename"));					
+        jQuery.ajax({
+            url: ajaxurl,
+            method: "POST",
+            data: data,
+            processData: false,
+            enctype: 'multipart/form-data',
+            contentType: false,						
+            success: function(response) {				 					
+                jQuery("#frmpackage").trigger("reset");
+                if(response.success)
+                {
+                    if(jQuery(self).hasClass("revert"))
                     {
+                        jQuery("#zip_message").html("Successfully reverted.").addClass("success");
+                    }
+                    else{
+                        jQuery(self).siblings(".detail").html("");
                         response.data.forEach(item=>{
-                            jQuery(self).parent().after(`<div>${item}</div>`)
+                            jQuery(self).siblings(".detail").append(`<li>${item}</li>`)
                         });
-                    }	
-                    else
-                    {
-                        jQuery("#zip_message").html(response.data.message).css("color", "red");
-                    }				
-                },
-                error: function(response) {
-                    console.log(response);
-                }
-            });
+                    }
+                }	
+                else
+                {
+                    jQuery("#zip_message").html(response.data.message).css("color", "red");
+                }				
+            },
+            error: function(response) {
+                console.log(response);
+            }
+        });
     }
+
     jQuery("[data-filename]").on("click", function(){
         loadDetail(this);
     });       

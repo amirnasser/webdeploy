@@ -23,6 +23,18 @@
     background: #ffe8e8;
 }
 
-.detail{
+.detail, .revert{
     cursor: pointer;
+    list-style: circle;
+    margin-left: 16px;        
+}
+
+.file { 
+    width: 212px;
+    display: inline-block;
+}
+
+span.title{
+    width: 60px;
+    display: inline-block;
 }
