@@ -56,7 +56,8 @@ class WebDeploy
 					$values = array(
 						"ps" => (int)ini_get("post_max_size") . " MB",
 						"uploadmaxfilesize" => ini_get("upload_max_filesize"),
-						"backups" => Utilities::GetListOfBackups(10)
+						"backups" => Utilities::GetListOfBackups(10),
+						"siteid" => get_current_blog_id()
 					);
 					echo Utilities::Render(self::$_instance, "deploy_upload.twig", $values);
 				});

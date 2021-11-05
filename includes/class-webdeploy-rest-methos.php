@@ -5,7 +5,7 @@ defined('ABSPATH') || exit;
 class RestMethods
 {
 
-    private static $_instance = null;
+	private static $_instance = null;
 	public $parent;
 
 	public static function instance($_parent)
@@ -13,16 +13,16 @@ class RestMethods
 		if (is_null(self::$_instance)) {
 			self::$_instance = new self($_parent);
 		}
-		
+
 		return self::$_instance;
 	}
 
-    function __construct($_parent)
+	function __construct($_parent)
 	{
 
 		$this->parent = $_parent;
 		$this->rest_api_method();
-    }
+	}
 
 	public function rest_api_method()
 	{
@@ -113,11 +113,11 @@ class RestMethods
 						return $this->rest_ver($request);
 					}
 				)
-			);	
-			
+			);
+
 			register_rest_route(
 				'webdeploy/v1',
-				'/generatepassword',
+				'/password/(?P<len>\d+)',
 				array(
 					'methods' => 'GET',
 					'callback' => function (WP_REST_Request $request) {
@@ -138,15 +138,12 @@ class RestMethods
 			wp_send_json_error(array("message" => "Api Key is wrong"));
 
 		$files = $request->get_file_params();
+		$filetodeploy = $files["file"];
 
-		foreach ($files as $k => $v) {
-			$file = $v["tmp_name"];
-			try {
-				wp_send_json_success($this->_unzip($file));
-			} catch (Exception $exp) {
-				wp_send_json_error(array("message" => $exp->getMessage()));
-			}
-			break;
+		try {
+			wp_send_json_success(Utilities::Unzip($filetodeploy["tmp_name"]));
+		} catch (Exception $exp) {
+			wp_send_json_error(array("message" => $exp->getMessage()));
 		}
 	}
 
@@ -158,7 +155,7 @@ class RestMethods
 			wp_send_json_error(array("message" => "Api Key is wrong"));
 		$limit = $request->get_param("limit") ?? 100;
 		wp_send_json_success(Utilities::GetListOfBackups($limit));
-	}	
+	}
 
 	private function rest_delete(WP_REST_Request $request)
 	{
@@ -210,7 +207,7 @@ class RestMethods
 	}
 
 	private function rest_ver(WP_REST_Request $request)
-	{		
+	{
 		wp_send_json_success($this->parent->_version);
 	}
 
@@ -226,54 +223,15 @@ class RestMethods
 
 		$file = $request->get_param("file");
 		try {
-			wp_send_json_success($this->_unzip($path . $file));
+			wp_send_json_success(Utilities::Unzip($path . $file));
 		} catch (Exception $exp) {
 			wp_send_json_error(array("message" => $exp->getMessage()));
 		}
-	}	
-
-
-	private function _unzip($file)
-	{
-		$path = ABSPATH;
-		$blogid = get_current_blog_id();
-		$zipFile = new \PhpZip\ZipFile();
-		$fz = $zipFile->openfile($file);
-		$dt = date("Ymd-his");
-		
-		//create backup directory
-		$backup = ABSPATH . "wp-content/uploads/backup/$blogid/";
-		if (!file_exists($backup))
-			mkdir($backup, 0777, true);
-
-		//backup
-		$list = $fz->getListFiles();
-		$zipBackup = new \PhpZip\ZipFile();
-
-		foreach ($list as $f) {
-			if (file_exists(ABSPATH . $f))
-				$zipBackup->addFile(ABSPATH . $f, $f);
-		}
-
-		if (count($zipBackup->getListFiles()) > 0) {
-			$backupfile = $dt . ".zip";
-			$zipBackup->saveAsFile($backup . "/" . $dt . ".zip");
-		}
-		//end backup
-		copy($file, $backup . "/" . $dt . "_deployed.zip");
-		$fz->extractTo($path);
-
-		return array(
-			"message" => "Deployed successfully",
-			"files" => array_values(array_filter($list, function ($item) {
-				return !str_ends_with($item, "/");
-			}))
-		);
-	}	
-
-	private function rest_generatepassword()
-	{
-		
 	}
 
+	private function rest_generatepassword(WP_REST_Request $request)
+	{
+		$len = $request->get_param("len");
+		wp_send_json_success(Utilities::GeneratePassword($len));
+	}
 }

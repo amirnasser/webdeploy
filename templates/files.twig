@@ -5,15 +5,15 @@
     {% for bc in backups %}
     <li>
         {% if bc.backup != null%}
-            <div><span class="title">Backup :</span><a class="file" href="/wp-content/uploads/backup/1/{{ bc.backup }}">{{ bc.backup }}</a> 
+            <div><span class="title">Backup :</span><a class="file" href="/wp-content/uploads/backup/{{siteid}}/{{ bc.backup }}">{{ bc.backup }}</a> 
             <a data-filename="{{ bc.backup }}" class="detail">Detial</a>
-            <a data-filename="{{ bc.backup }}" class="revert">Revert</a>
+            <a data-filename="{{ bc.backup|replace({"_backedup.zip":""}) }}" class="revert">Revert</a>
             <ul class="detail"></ul>
         </div>
         {% endif %}
-        {% if bc.package != null%}
+        {% if bc.deploy != null%}
         <div>
-            <span class="title">Package :</span><a class="file" href="/wp-content/uploads/backup/1/{{ bc.package }}">{{ bc.package }}</a> <a data-filename="{{ bc.package }}" class="detail">Detial</a>
+            <span class="title">Package :</span><a class="file" href="/wp-content/uploads/backup/{{siteid}}/{{ bc.deploy }}">{{ bc.deploy }}</a> <a data-filename="{{ bc.deploy }}" class="detail">Detial</a>
             <ul class="detail"></ul>
         </div>
     </li>

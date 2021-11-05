@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name: Webneat Deploy
+ * Plugin Name: WebDeploy
  * Version: 1.1.0
  * Plugin URI: http://www.webneat.ca/webneat-deploy
  * 

@@ -27,8 +27,8 @@ class Utilities
 
 			foreach ($backups as $k => $v) {
 				array_push($result, array(
-					"backup" => file_exists($backup . str_replace("_deployed.zip", ".zip", $v)) ? str_replace("_deployed.zip", ".zip", $v) : null,
-					"package" => file_exists($backup . $v) ? $v : null
+					"backup" => file_exists($backup . str_replace("_deployed.zip", "_backedup.zip", $v)) ? str_replace("_deployed.zip", "_backedup.zip", $v) : null,
+					"deploy" => file_exists($backup . $v) ? $v : null
 				));
 			}
 
@@ -60,8 +60,8 @@ class Utilities
 		}
 
 		if (count($zipBackup->getListFiles()) > 0) {
-			$backupfile = $dt . ".zip";
-			$zipBackup->saveAsFile($backup . "/" . $dt . ".zip");
+			$backupfile = $dt . "_backedup.zip";
+			$zipBackup->saveAsFile($backup . "/" . $backupfile);
 		}
 		//end backup
 		copy($file, $backup . "/" . $dt . "_deployed.zip");
@@ -69,36 +69,60 @@ class Utilities
 
 		return array(
 			"message" => "Deployed successfully",
+			"package" => $dt,
 			"files" => array_values(array_filter($list, function ($item) {
 				return !str_ends_with($item, "/");
 			}))
 		);
 	}	
 
-	public static function Revert($file)
+	public static function Revert($packagename)
 	{
 		ini_set("display_errors", "0");
 		$blogid = get_current_blog_id();
 		$path = ABSPATH . "wp-content/uploads/backup/$blogid/";
 		$blogid = get_current_blog_id();
-		// $zipFile = new \PhpZip\ZipFile();
-		// $fz = $zipFile->openfile($path.$file);
-		// $ziplist = $fz->getListFiles();
 
-		// $zipPackage = new \PhpZip\ZipFile();
-		// $fzp = $zipPackage->openfile($path.str_replace(".zip","_deployed.zip",$file));
-		// $zipPackgeList = $fzp->getListFiles();
+		$file = $packagename."_deployed.zip";
+		$packagefile = $packagename.".zip";
 
-		// $diff = array_diff($ziplist, $zipPackgeList);
-		// foreach($diff as $dif)
-		// {
-		// 	unlink($path.$dif);
-		// }
+		if(!file_exists($path.$file))
+		{
+			wp_send_json_error(array("message" => "File '$file' does not exists."));
+			wp_die();
+		}
 
-		try {
+		if(!file_exists($path.$packagefile))			
+		{
+			$zipFile = new \PhpZip\ZipFile();
+			$fz = $zipFile->openfile($path.$file);
+			$ziplist = $fz->getListFiles();
+
+			foreach($ziplist as $f)
+			{
+				unlink(ABSPATH.$f);
+			}
+			wp_send_json_success(array("message" => "All added files removed.", "files" => $ziplist));
+			wp_die();
+		}
+		else
+		{
+			$zipFile = new \PhpZip\ZipFile();
+			$fz = $zipFile->openfile($path.$file);
+			$ziplist = $fz->getListFiles();
+
+			$zipPackage = new \PhpZip\ZipFile();
+			$fzp = $zipPackage->openfile($path.str_replace(".zip","_deployed.zip",$file));
+			$zipPackgeList = $fzp->getListFiles();
+
+			$diff = array_diff($ziplist, $zipPackgeList);
+
+			foreach($diff as $dif)
+			{
+				unlink($path.$dif);
+			}
+
 			wp_send_json_success(Utilities::Unzip($path . $file));
-		} catch (Exception $exp) {
-			wp_send_json_error(array("message" => $exp->getMessage()));
 		}
 	}	
 
@@ -114,44 +138,7 @@ class Utilities
 		}));
 		return $result;
 	}		
-
-	// public static function Unzip($file)
-	// {
-	// 	$path = ABSPATH;
-	// 	$blogid = get_current_blog_id();
-	// 	$zipFile = new \PhpZip\ZipFile();
-	// 	$fz = $zipFile->openfile($file);
-	// 	$dt = date("Ymd-his");
-		
-	// 	//create backup directory
-	// 	$backup = ABSPATH . "wp-content/uploads/backup/$blogid/";
-	// 	if (!file_exists($backup))
-	// 		mkdir($backup, 0777, true);
-
-	// 	//backup
-	// 	$list = $fz->getListFiles();
-	// 	$zipBackup = new \PhpZip\ZipFile();
-
-	// 	foreach ($list as $f) {
-	// 		if (file_exists(ABSPATH . $f))
-	// 			$zipBackup->addFile(ABSPATH . $f, $f);
-	// 	}
-
-	// 	if (count($zipBackup->getListFiles()) > 0) {
-	// 		$backupfile = $dt . ".zip";
-	// 		$zipBackup->saveAsFile($backup . "/" . $dt . ".zip");
-	// 	}
-	// 	//end backup
-	// 	copy($file, $backup . "/" . $dt . "_deployed.zip");
-	// 	$fz->extractTo($path);
-
-	// 	return array(
-	// 		"message" => "Deployed successfully",
-	// 		"files" => array_values(array_filter($list, function ($item) {
-	// 			return !str_ends_with($item, "/");
-	// 		}))
-	// 	);
-	// }	
+	
 	
     public static function GeneratePassword($num)
     {

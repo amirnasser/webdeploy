@@ -4,7 +4,6 @@ defined('ABSPATH') || exit;
 
 class AjaxMethods
 {
-
     private static $_instance = null;
     public $parent = null;
     
