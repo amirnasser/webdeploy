@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Webneat Deploy
- * Version: 1.0.0
+ * Version: 1.1.0
  * Plugin URI: http://www.webneat.ca/webneat-deploy
  * 
  * Description: This plugins helps system addmin deployment easy.
