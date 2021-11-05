@@ -21,6 +21,15 @@ jQuery(function(){
                     if(jQuery(self).hasClass("revert"))
                     {
                         jQuery("#zip_message").html("Successfully reverted.").addClass("success");
+                        jQuery.ajax({url:ajaxurl, data: {"action":"list"}})
+                            .success(function(data){
+                                jQuery("#zip_message").html(response.data.message).addClass("success");
+                                jQuery("#backups").html(data.replace("</ul>0", "</ul>"));
+
+                                jQuery("[data-filename]").on("click", function(){
+                                    loadDetail(this);
+                            });     
+                        });                        
                     }
                     else{
                         jQuery(self).siblings(".detail").html("");

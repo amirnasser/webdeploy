@@ -26,6 +26,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 // Load plugin class files.
+require_once 'includes/class-webdeploy-utilities.php';
+require_once 'includes/class-webdeploy-rest-methos.php';
+require_once 'includes/class-webdeploy-ajax-methods.php';
 require_once 'includes/class-webdeploy-admin-api.php';
 require_once 'includes/class-webdeploy.php';
 require_once 'includes/class-webdeploy-settings.php';
@@ -35,7 +38,7 @@ require_once 'includes/class-webdeploy-settings.php';
 //require_once 'includes/lib/class-woodbine-tip-taxonomy.php';
 require_once 'vendor/autoload.php';
 
-
+static $instance;
 /**
  * Returns the main instance of webdeploy to prevent the need to use globals.
  *
@@ -43,15 +46,23 @@ require_once 'vendor/autoload.php';
  * @return object webdeploy
  */
 function webdeploy() {
-	$instance = WebDeploy::instance( __FILE__, '1.0.0' );
+	$instance = WebDeploy::instance( __FILE__, '1.1.0' );
 
 	if ( is_null( $instance->settings ) ) {
 		$instance->settings = WebDeploy_Settings::instance( $instance );
 	}
 
+	if ( is_null( $instance->ajax ) ) {
+		$instance->ajax = AjaxMethods::instance( $instance );
+	}
+
+	if ( is_null( $instance->rest ) ) {
+		$instance->rest = RestMethods::instance( $instance );
+	}
+
 	return $instance;
 }
-
-webdeploy();
+if($instance == null)
+	$instance = webdeploy();
 
 //echo get_option();die;
