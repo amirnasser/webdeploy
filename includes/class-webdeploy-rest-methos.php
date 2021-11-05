@@ -113,7 +113,18 @@ class RestMethods
 						return $this->rest_ver($request);
 					}
 				)
-			);			
+			);	
+			
+			register_rest_route(
+				'webdeploy/v1',
+				'/generatepassword',
+				array(
+					'methods' => 'GET',
+					'callback' => function (WP_REST_Request $request) {
+						return $this->rest_generatepassword($request);
+					}
+				)
+			);
 		});
 	}
 
@@ -260,5 +271,9 @@ class RestMethods
 		);
 	}	
 
+	private function rest_generatepassword()
+	{
+		
+	}
 
 }

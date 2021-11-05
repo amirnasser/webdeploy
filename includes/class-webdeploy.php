@@ -63,17 +63,15 @@ class WebDeploy
 			}
 		});
 
-		register_activation_hook( __FILE__, array( $this, 'install' ) );
+		register_activation_hook( $this->file, function(){
+			$apikey = get_option("wpwd_apikey");
+			if(strlen($apikey)==0)
+			{
+				$newpassword = Utilities::GeneratePassword(24);
+				update_option("wpwd_apikey", $newpassword);
+			}
+		});
 	}
-
-	static function install() {
-		$apikey = get_option("wpwd_apikey");
-		if(strlen($apikey)==0)
-		{
-			$newpassword = Utilities::GeneratePassword(24);
-			update_option("wpwd_apikey", $newpassword);
-		}
- 	}
 
 	public function enqueue_styles()
 	{
