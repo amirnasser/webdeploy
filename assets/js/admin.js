@@ -92,4 +92,25 @@ jQuery(function(){
             });
         }
     });    
+
+    jQuery("#btnCleanup").on("click", function(){			
+            jQuery.ajax({
+                url: ajaxurl,
+                method: "GET",
+                data: {"action":"cleanup"},
+                success: function(response) {									
+                    if(response.success)
+                    {
+                        jQuery("#zip_message").html("Cleaned up").addClass("success");
+                    }	
+                    else
+                    {
+                        jQuery("#zip_message").html(response.errors.map(function(item){return jQuery(`<div>${item}</div>`);})).addClass("danger");
+                    }				
+                },
+                error: function(response) {
+                    console.log(response);
+                }
+            });
+    });     
 });

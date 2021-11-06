@@ -26,7 +26,7 @@ class AjaxMethods
 	{
 		$methods = array();
 
-		$adminmethods = array("unzip", "detail", "blist", "list", "revert");
+		$adminmethods = array("unzip", "detail", "blist", "list", "revert","cleanup");
 
 		foreach ($methods as $method) {
 			add_action('wp_ajax_nopriv_' . $method, array($this, "ajax_".$method));
@@ -76,4 +76,18 @@ class AjaxMethods
 		Utilities::Revert($_REQUEST["filename"]);
 	}
     
+	public function ajax_cleanup()
+	{
+		$arr = Utilities::CleanUp();
+		if(count($arr))
+		{
+			wp_send_json_error(array("errors"=>$arr));
+		}
+		else
+		{
+			wp_send_json_success();
+		}
+		wp_die();
+	}
+
 }
