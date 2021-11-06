@@ -7,7 +7,7 @@
         {% if bc.backup != null%}
             <div><span class="title">Backup :</span><a class="file" href="/wp-content/uploads/backup/{{siteid}}/{{ bc.backup }}">{{ bc.backup }}</a> 
             <a data-filename="{{ bc.backup }}" class="detail">Detial</a>
-            <a data-filename="{{ bc.backup|replace({"_backedup.zip":""}) }}" class="revert">Revert</a>
+            {# <a data-filename="{{ bc.backup|replace({"_backedup.zip":""}) }}" class="revert">Revert</a> #}
             <ul class="detail"></ul>
         </div>
         {% endif %}

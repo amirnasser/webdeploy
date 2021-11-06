@@ -8,7 +8,7 @@ class Utilities
 		return $twig->render($templateName, $values);
 	}
 
-	public static function GetListOfBackups($limit = 10)
+	public static function GetListOfBackups($limit = 0)
 	{
 		$blogid = get_current_blog_id();
 		$backup = ABSPATH . "wp-content/uploads/backup/$blogid/";
@@ -21,8 +21,9 @@ class Utilities
 			);
 			arsort($backups);
 
-
-			$backups = array_slice($backups, 0, $limit);
+			if($limit!=0)
+				$backups = array_slice($backups, 0, $limit);
+			
 			$result = array();
 
 			foreach ($backups as $k => $v) {
@@ -36,7 +37,7 @@ class Utilities
 		} else
 			return array();
 	}
-	
+
 	public static function Unzip($file)
 	{
 		$path = ABSPATH;
@@ -44,7 +45,7 @@ class Utilities
 		$zipFile = new \PhpZip\ZipFile();
 		$fz = $zipFile->openfile($file);
 		$dt = date("Ymd-his");
-		
+
 		//create backup directory
 		$backup = ABSPATH . "wp-content/uploads/backup/$blogid/";
 		if (!file_exists($backup))
@@ -74,57 +75,51 @@ class Utilities
 				return !str_ends_with($item, "/");
 			}))
 		);
-	}	
+	}
 
 	public static function Revert($packagename)
 	{
-		ini_set("display_errors", "0");
+		$dt = date("Ymd-his");
 		$blogid = get_current_blog_id();
 		$path = ABSPATH . "wp-content/uploads/backup/$blogid/";
 		$blogid = get_current_blog_id();
 
-		$file = $packagename."_deployed.zip";
-		$packagefile = $packagename.".zip";
+		$file = $packagename . "_deployed.zip";
+		$packagefile = $packagename . "_deployed.zip";
 
-		if(!file_exists($path.$file))
-		{
+		if (!file_exists($path . $file)) {
 			wp_send_json_error(array("message" => "File '$file' does not exists."));
 			wp_die();
 		}
 
-		if(!file_exists($path.$packagefile))			
-		{
+		if (!file_exists($path . $packagefile)) {
 			$zipFile = new \PhpZip\ZipFile();
-			$fz = $zipFile->openfile($path.$file);
+			$fz = $zipFile->openfile($path . $file);
 			$ziplist = $fz->getListFiles();
 
-			foreach($ziplist as $f)
-			{
-				unlink(ABSPATH.$f);
+			foreach ($ziplist as $f) {
+				unlink(ABSPATH . $f);
 			}
 			wp_send_json_success(array("message" => "All added files removed.", "files" => $ziplist));
 			wp_die();
-		}
-		else
-		{
+		} else {
 			$zipFile = new \PhpZip\ZipFile();
-			$fz = $zipFile->openfile($path.$file);
+			$fz = $zipFile->openfile($path . $file);
 			$ziplist = $fz->getListFiles();
 
 			$zipPackage = new \PhpZip\ZipFile();
-			$fzp = $zipPackage->openfile($path.str_replace(".zip","_deployed.zip",$file));
+			$fzp = $zipPackage->openfile($path . str_replace("_backedup.zip", "_deployed.zip", $file));
 			$zipPackgeList = $fzp->getListFiles();
 
 			$diff = array_diff($ziplist, $zipPackgeList);
 
-			foreach($diff as $dif)
-			{
-				unlink($path.$dif);
+			foreach ($diff as $dif) {
+				unlink($path . $dif);
 			}
 
 			wp_send_json_success(Utilities::Unzip($path . $file));
 		}
-	}	
+	}
 
 	public static function GetDetail($filename)
 	{
@@ -137,18 +132,41 @@ class Utilities
 			return !str_ends_with($item, "/");
 		}));
 		return $result;
-	}		
-	
-	
-    public static function GeneratePassword($num)
-    {
-        $alphabet = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
-        $pass = array(); //remember to declare $pass as an array
-        $alphaLength = strlen($alphabet) - 1; //put the length -1 in cache
-        for ($i = 0; $i < $num; $i++) {
-            $n = rand(0, $alphaLength);
-            $pass[] = $alphabet[$n];
-        }
-        return implode($pass); //turn the array into a string
-    }
+	}
+
+
+	public static function GeneratePassword($num)
+	{
+		$alphabet = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
+		$pass = array(); //remember to declare $pass as an array
+		$alphaLength = strlen($alphabet) - 1; //put the length -1 in cache
+		for ($i = 0; $i < $num; $i++) {
+			$n = rand(0, $alphaLength);
+			$pass[] = $alphabet[$n];
+		}
+		return implode($pass); //turn the array into a string
+	}
+
+	public static function CleanUp()
+	{
+		$blogid = get_current_blog_id();
+		$root = ABSPATH . "wp-content/uploads/backup/$blogid/";
+
+		$all = Utilities::GetListOfBackups(1000);
+
+		$dif = array_splice($all, 5);
+		$errors = array();
+		foreach ($dif as $d) {
+			try {
+				if($d["deploy"]!=null)
+					unlink($root . $d["deploy"]);
+				if($d["backup"]!=null)
+					unlink($root . $d["backup"]);
+			} catch (Exception $exp) {
+				array_push($erros, $exp->getMessage());
+			}
+		}
+
+		return $errors;
+	}
 }

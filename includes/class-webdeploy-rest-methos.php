@@ -125,6 +125,17 @@ class RestMethods
 					}
 				)
 			);
+
+			register_rest_route(
+				'webdeploy/v1',
+				'/cleanup/(?P<apikey>.+)',
+				array(
+					'methods' => 'GET',
+					'callback' => function (WP_REST_Request $request) {
+						return $this->rest_cleanup($request);
+					}
+				)
+			);			
 		});
 	}
 
@@ -145,6 +156,7 @@ class RestMethods
 		} catch (Exception $exp) {
 			wp_send_json_error(array("message" => $exp->getMessage()));
 		}
+		wp_die();
 	}
 
 	private function rest_packages(WP_REST_Request $request)
@@ -155,6 +167,7 @@ class RestMethods
 			wp_send_json_error(array("message" => "Api Key is wrong"));
 		$limit = $request->get_param("limit") ?? 100;
 		wp_send_json_success(Utilities::GetListOfBackups($limit));
+		wp_die();
 	}
 
 	private function rest_delete(WP_REST_Request $request)
@@ -180,6 +193,7 @@ class RestMethods
 		} catch (Exception $exp) {
 			wp_send_json_error(array("message" => $exp->getMessage()));
 		}
+		wp_die();
 	}
 
 	public function rest_packagedetail(WP_REST_Request $request)
@@ -192,6 +206,7 @@ class RestMethods
 
 		$file = $request->get_param("file");
 		wp_send_json_success(Utilities::GetDetail($file));
+		wp_die();
 	}
 
 	public function rest_revert(WP_REST_Request $request)
@@ -204,11 +219,13 @@ class RestMethods
 
 		$file = $request->get_param("file");
 		Utilities::Revert($file);
+		wp_die();
 	}
 
 	private function rest_ver(WP_REST_Request $request)
 	{
 		wp_send_json_success($this->parent->_version);
+		wp_die();
 	}
 
 	public function rest_redeploy(WP_REST_Request $request)
@@ -227,11 +244,30 @@ class RestMethods
 		} catch (Exception $exp) {
 			wp_send_json_error(array("message" => $exp->getMessage()));
 		}
+		wp_die();
 	}
 
 	private function rest_generatepassword(WP_REST_Request $request)
 	{
 		$len = $request->get_param("len");
 		wp_send_json_success(Utilities::GeneratePassword($len));
+	}
+
+	private function rest_cleanup(WP_REST_Request $request)
+	{
+		if (get_option("wpwd_apikey") != $request->get_param("apikey"))
+			wp_send_json_error(array("message" => "Api Key is wrong"));
+
+		$resul = Utilities::CleanUp();
+
+		if(count($resul))
+		{
+			wp_send_json_error(array("errors"=>$resul));
+		}
+		else
+		{
+			wp_send_json_success();
+		}
+		wp_die();
 	}
 }

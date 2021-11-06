@@ -52,7 +52,7 @@ class WebDeploy
 		add_action('wp_dashboard_setup', function () {
 			$path = $this->dir;
 			if (is_admin()) {
-				wp_add_dashboard_widget('deploy_upload', 'Web Deploy', function () {
+				wp_add_dashboard_widget('deploy_upload', 'Web Deploy ('.$this->_version.')', function () {
 					$values = array(
 						"ps" => (int)ini_get("post_max_size") . " MB",
 						"uploadmaxfilesize" => ini_get("upload_max_filesize"),
