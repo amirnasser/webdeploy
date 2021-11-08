@@ -1,22 +1,29 @@
 <ul>
     {% if backups|length > 0 %}
-    <li><strong>Deployed Packages and Backups</strong></li>
+    <li class="title"><strong>Deployed Packages and Backups</strong></li>
     {% endif %}
     {% for bc in backups %}
     <li>
+        <ul>
         {% if bc.backup != null%}
-            <div><span class="title">Backup :</span><a class="file" href="/wp-content/uploads/backup/{{siteid}}/{{ bc.backup }}">{{ bc.backup }}</a> 
-            <a data-filename="{{ bc.backup }}" class="detail">Detial</a>
-            {# <a data-filename="{{ bc.backup|replace({"_backedup.zip":""}) }}" class="revert">Revert</a> #}
-            <ul class="detail"></ul>
-        </div>
+            <li class="f">
+                <div><span class="title">Backup :</span><a class="file" href="/wp-content/uploads/backup/{{siteid}}/{{ bc.backup }}">{{ bc.backup }}</a> 
+                <a data-filename="{{ bc.backup }}" class="detail">Detial</a>
+                {# <a data-filename="{{ bc.backup|replace({"_backedup.zip":""}) }}" class="revert">Revert</a> #}
+                <ul class="detail"></ul>
+                </div>
+            </li>
         {% endif %}
         {% if bc.deploy != null%}
-        <div>
-            <span class="title">Package :</span><a class="file" href="/wp-content/uploads/backup/{{siteid}}/{{ bc.deploy }}">{{ bc.deploy }}</a> <a data-filename="{{ bc.deploy }}" class="detail">Detial</a>
-            <ul class="detail"></ul>
-        </div>
-    </li>
+        <li class="f">
+            <div>
+                <span class="title">Package :</span><a class="file" href="/wp-content/uploads/backup/{{siteid}}/{{ bc.deploy }}">{{ bc.deploy }}</a> <a data-filename="{{ bc.deploy }}" class="detail">Detial</a>
+                <ul class="detail"></ul>
+            </div>
+        </li>
         {% endif %}
+        </ul>
+        <br />
+    </li>        
     {% endfor %}
 </ul>

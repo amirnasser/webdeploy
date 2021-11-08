@@ -27,6 +27,11 @@
   cursor: pointer;
   list-style: circle;
   margin-left: 16px;
+  margin-bottom: 10px;
+}
+
+.detail li, .revert li {
+  margin-bottom: 0;
 }
 
 .file {
@@ -37,5 +42,22 @@
 span.title {
   width: 60px;
   display: inline-block;
+}
+
+.files li {
+  margin-bottom: 0;
+}
+
+dd, li {
+  margin-bottom: -10px;
+}
+
+#backups ul li:first {
+  padding-bottom: 10px;
+}
+
+li.title {
+  padding-bottom: 17px;
+  font-size: 1.1em;
 }
 /*# sourceMappingURL=admin.css.map */
