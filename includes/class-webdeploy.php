@@ -95,12 +95,10 @@ class WebDeploy
 	{
 		wp_register_script($this->_token . '-jqvalidate', esc_url($this->assets_url) . 'js/jquery.validate' . $this->script_suffix . '.js', array('jquery'), $this->_version, true);
 		wp_register_script($this->_token . '-jqvalidate-uv', esc_url($this->assets_url) . 'js/jquery.validate.unobtrusive' . $this->script_suffix . '.js', array('jquery'), $this->_version, true);
-		//wp_register_script($this->_token . '-admin', esc_url($this->assets_url) . 'js/admin' . $this->script_suffix . '.js', array('jquery'), $this->_version, true);
 		wp_register_script($this->_token . '-main', esc_url($this->assets_url) . 'js/main' . $this->script_suffix . '.js', array('jquery'), $this->_version, true);
 
 		wp_enqueue_script($this->_token . '-jqvalidate');
 		wp_enqueue_script($this->_token . '-jqvalidate-uv');
-		//wp_enqueue_script($this->_token . '-admin');
 		wp_enqueue_script($this->_token . '-main');
 	}
 }
