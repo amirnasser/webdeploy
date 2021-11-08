@@ -62,7 +62,7 @@ function webdeploy() {
 
 	return $instance;
 }
+
+
 if($instance == null)
 	$instance = webdeploy();
-
-//echo get_option();die;

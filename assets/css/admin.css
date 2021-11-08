@@ -24,7 +24,6 @@
 }
 
 .detail, .revert {
-  cursor: pointer;
   list-style: circle;
   margin-left: 16px;
   margin-bottom: 10px;
@@ -34,14 +33,21 @@
   margin-bottom: 0;
 }
 
+.btndetail {
+  cursor: pointer;
+  position: absolute;
+  right: 0;
+}
+
 .file {
   width: 212px;
   display: inline-block;
 }
 
 span.title {
-  width: 60px;
+  width: 70px;
   display: inline-block;
+  font-weight: bold;
 }
 
 .files li {

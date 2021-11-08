@@ -39,13 +39,6 @@ class WebDeploy
 		add_action('wp_enqueue_scripts', array($this, 'enqueue_styles'), 10);
 		add_action('wp_enqueue_scripts', array($this, 'enqueue_myvar'), 9);
 		add_action('wp_enqueue_scripts', array($this, 'enqueue_scripts'), 10);
-		//$user_id = get_current_user_id();
-		//die($user_id);
-		//$user_meta=get_userdata(1);
-		//$user_roles=$user_meta->roles;
-		//print_r($user_roles);die;
-
-		// Load API for generic admin functions.
 		
 		if (is_admin()) {
 			$this->admin = new Webdeploy_Admin();

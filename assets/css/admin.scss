@@ -23,8 +23,7 @@
     background: #ffe8e8;
 }
 
-.detail, .revert{
-    cursor: pointer;
+.detail, .revert{    
     list-style: circle;
     margin-left: 16px; 
     margin-bottom: 10px;
@@ -33,14 +32,21 @@
     }           
 }
 
+.btndetail{
+    cursor: pointer;
+    position: absolute;
+    right: 0;
+}
+
 .file { 
     width: 212px;
     display: inline-block;
 }
 
 span.title{
-    width: 60px;
+    width: 70px;
     display: inline-block;
+    font-weight: bold;
 }
 .files li{
     margin-bottom: 0;
@@ -57,4 +63,8 @@ dd, li{
 li.title {
     padding-bottom: 17px;
     font-size: 1.1em;
+}
+
+.c{
+    //position: relative;
 }
