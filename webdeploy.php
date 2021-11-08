@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: WebDeploy
- * Version: 1.1.0
+ * Version: 1.2.0
  * Plugin URI: http://www.webneat.ca/webneat-deploy
  * 
  * Description: This plugins helps system addmin deployment easy.
@@ -46,7 +46,7 @@ static $instance;
  * @return object webdeploy
  */
 function webdeploy() {
-	$instance = WebDeploy::instance( __FILE__, '1.1.0' );
+	$instance = WebDeploy::instance( __FILE__, '1.2.0' );
 
 	if ( is_null( $instance->settings ) ) {
 		$instance->settings = WebDeploy_Settings::instance( $instance );
