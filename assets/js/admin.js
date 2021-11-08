@@ -2,115 +2,95 @@ jQuery(function(){
 
     let $form = jQuery("#frmpackage");
     $form.validate();
-    function loadDetail(self)
-    {        
-        var data = new FormData();	
-        data.append('action', jQuery(self).attr("class"));
-        data.append('filename', jQuery(self).data("filename"));					
-        jQuery.ajax({
-            url: ajaxurl,
-            method: "POST",
-            data: data,
-            processData: false,
-            enctype: 'multipart/form-data',
-            contentType: false,						
-            success: function(response) {				 					
-                jQuery("#frmpackage").trigger("reset");
-                if(response.success)
-                {
-                    if(jQuery(self).hasClass("revert"))
-                    {
-                        jQuery("#zip_message").html("Successfully reverted.").addClass("success");
-                        jQuery.ajax({url:ajaxurl, data: {"action":"list"}})
-                            .success(function(data){
-                                jQuery("#zip_message").html(response.data.message).addClass("success");
-                                jQuery("#backups").html(data.replace("</ul>0", "</ul>"));
+    // function loadDetail(self)
+    // {        
+    //     var data = new FormData();	
+    //     data.append('action', jQuery(self).attr("class"));
+    //     data.append('filename', jQuery(self).data("filename"));					
+    //     jQuery.ajax({
+    //         url: ajaxurl,
+    //         method: "POST",
+    //         data: data,
+    //         processData: false,
+    //         enctype: 'multipart/form-data',
+    //         contentType: false,						
+    //         success: function(response) {				 					
+    //             jQuery("#frmpackage").trigger("reset");
+    //             if(response.success)
+    //             {
+    //                 if(jQuery(self).hasClass("revert"))
+    //                 {
+    //                     jQuery("#zip_message").html("Successfully reverted.").addClass("success");
+    //                     jQuery.ajax({url:ajaxurl, data: {"action":"list"}})
+    //                         .success(function(data){
+    //                             jQuery("#zip_message").html(response.data.message).addClass("success");
+    //                             jQuery("#backups").html(data.replace("</ul>0", "</ul>"));
 
-                                jQuery("[data-filename]").on("click", function(){
-                                    loadDetail(this);
-                            });     
-                        });                        
-                    }
-                    else{
-                        jQuery(self).siblings(".detail").html("");
-                        response.data.forEach(item=>{
-                            jQuery(self).siblings(".detail").append(`<li>${item}</li>`)
-                        });
-                    }
-                }	
-                else
-                {
-                    jQuery("#zip_message").html(response.data.message).css("color", "red");
-                }				
-            },
-            error: function(response) {
-                console.log(response);
-            }
-        });
-    }
+    //                             jQuery("[data-filename]").on("click", function(){
+    //                                 loadDetail(this);
+    //                         });     
+    //                     });                        
+    //                 }
+    //                 else{
+    //                     jQuery(self).siblings(".detail").html("");
+    //                     response.data.forEach(item=>{
+    //                         jQuery(self).siblings(".detail").append(`<li>${item}</li>`)
+    //                     });
+    //                 }
+    //             }	
+    //             else
+    //             {
+    //                 jQuery("#zip_message").html(response.data.message).css("color", "red");
+    //             }				
+    //         },
+    //         error: function(response) {
+    //             console.log(response);
+    //         }
+    //     });
+    // }
 
-    jQuery("[data-filename]").on("click", function(){
-        loadDetail(this);
-    });       
+    // jQuery("[data-filename]").on("click", function(){
+    //     loadDetail(this);
+    // });       
 
-    jQuery("#btnPackageUpload").on("click", function(){			
-        if($form.valid())
-        {
-            var data = new FormData();							
-            data.append("wnp_file", jQuery("#wnp_file")[0].files[0]);	
-            data.append("datatype", jQuery("#datatype").val());
-            data.append('action', 'unzip');	
-            jQuery.ajax({
-                url: ajaxurl,
-                method: "POST",
-                data: data,
-                processData: false,
-                enctype: 'multipart/form-data',
-                contentType: false,
-                success: function(response) {									
-                    jQuery("#frmpackage").trigger("reset");
-                    if(response.success)
-                    {
-                        jQuery.ajax({url:ajaxurl, data: {"action":"list"}})
-                            .success(function(data){
-                                jQuery("#zip_message").html(response.data.message).addClass("success");
-                                jQuery("#backups").html(data.replace("</ul>0", "</ul>"));
+    // jQuery("#btnPackageUpload").on("click", function(){			
+    //     if($form.valid())
+    //     {
+    //         var data = new FormData();							
+    //         data.append("wnp_file", jQuery("#wnp_file")[0].files[0]);	
+    //         data.append("datatype", jQuery("#datatype").val());
+    //         data.append('action', 'unzip');	
+    //         jQuery.ajax({
+    //             url: ajaxurl,
+    //             method: "POST",
+    //             data: data,
+    //             processData: false,
+    //             enctype: 'multipart/form-data',
+    //             contentType: false,
+    //             success: function(response) {									
+    //                 jQuery("#frmpackage").trigger("reset");
+    //                 if(response.success)
+    //                 {
+    //                     jQuery.ajax({url:ajaxurl, data: {"action":"list"}})
+    //                         .success(function(data){
+    //                             jQuery("#zip_message").html(response.data.message).addClass("success");
+    //                             jQuery("#backups").html(data.replace("</ul>0", "</ul>"));
 
-                                jQuery("[data-filename]").on("click", function(){
-                                    loadDetail(this);
-                            });     
-                        });
-                    }	
-                    else
-                    {
-                        jQuery("#zip_message").html(response.data.message).addClass("danger");
-                    }				
-                },
-                error: function(response) {
-                    console.log(response);
-                }
-            });
-        }
-    });    
-
-    jQuery("#btnCleanup").on("click", function(){			
-            jQuery.ajax({
-                url: ajaxurl,
-                method: "GET",
-                data: {"action":"cleanup"},
-                success: function(response) {									
-                    if(response.success)
-                    {
-                        jQuery("#zip_message").html("Cleaned up").addClass("success");
-                    }	
-                    else
-                    {
-                        jQuery("#zip_message").html(response.errors.map(function(item){return jQuery(`<div>${item}</div>`);})).addClass("danger");
-                    }				
-                },
-                error: function(response) {
-                    console.log(response);
-                }
-            });
-    });     
+    //                             jQuery("[data-filename]").on("click", function(){
+    //                                 loadDetail(this);
+    //                         });     
+    //                     });
+    //                 }	
+    //                 else
+    //                 {
+    //                     jQuery("#zip_message").html(response.data.message).addClass("danger");
+    //                 }				
+    //             },
+    //             error: function(response) {
+    //                 console.log(response);
+    //             }
+    //         });
+    //     }
+    // });    
+     
 });

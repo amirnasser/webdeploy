@@ -57,7 +57,8 @@ class AjaxMethods
 		$values = array(
 			"backups" => Utilities::GetListOfBackups()
 		);
-		echo Utilities::Render(self::$_instance->parent, "files.twig", $values);
+		wp_send_json_success(array("html"=>Utilities::Render(self::$_instance->parent, "files.twig", $values)));
+		wp_die();
 	}  
     
 	public function ajax_detail()
@@ -68,7 +69,7 @@ class AjaxMethods
 
 	public function ajax_blist()
 	{
-		return wp_send_json_success(Utilities::GetListOfBackups());
+		wp_send_json_success(Utilities::GetListOfBackups());
 	}
 
 	public function ajax_revert()

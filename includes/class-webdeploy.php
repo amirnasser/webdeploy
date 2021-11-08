@@ -39,8 +39,14 @@ class WebDeploy
 		add_action('wp_enqueue_scripts', array($this, 'enqueue_styles'), 10);
 		add_action('wp_enqueue_scripts', array($this, 'enqueue_myvar'), 9);
 		add_action('wp_enqueue_scripts', array($this, 'enqueue_scripts'), 10);
+		//$user_id = get_current_user_id();
+		//die($user_id);
+		//$user_meta=get_userdata(1);
+		//$user_roles=$user_meta->roles;
+		//print_r($user_roles);die;
 
 		// Load API for generic admin functions.
+		
 		if (is_admin()) {
 			$this->admin = new Webdeploy_Admin();
 		}
@@ -50,8 +56,8 @@ class WebDeploy
 		add_action('admin_enqueue_scripts', array($this, 'admin_enqueue_styles'), 10, 1);
 
 		add_action('wp_dashboard_setup', function () {
-			$path = $this->dir;
-			if (is_admin()) {
+			$user = wp_get_current_user();
+			if (is_admin() && in_array('administrator', $user->roles)) {
 				wp_add_dashboard_widget('deploy_upload', 'Web Deploy ('.$this->_version.')', function () {
 					$values = array(
 						"ps" => (int)ini_get("post_max_size") . " MB",
@@ -64,7 +70,7 @@ class WebDeploy
 			}
 		});
 
-		register_activation_hook( $this->file, function(){
+		register_activation_hook( $this->file, function(){			
 			$apikey = get_option("wpwd_apikey");
 			if(strlen($apikey)==0)
 			{
@@ -72,14 +78,6 @@ class WebDeploy
 				update_option("wpwd_apikey", $newpassword);
 			}
 		});
-	}
-
-	public function enqueue_styles()
-	{
-	}
-
-	public function enqueue_scripts()
-	{
 	}
 
 	public function enqueue_myvar()
@@ -97,10 +95,12 @@ class WebDeploy
 	{
 		wp_register_script($this->_token . '-jqvalidate', esc_url($this->assets_url) . 'js/jquery.validate' . $this->script_suffix . '.js', array('jquery'), $this->_version, true);
 		wp_register_script($this->_token . '-jqvalidate-uv', esc_url($this->assets_url) . 'js/jquery.validate.unobtrusive' . $this->script_suffix . '.js', array('jquery'), $this->_version, true);
-		wp_register_script($this->_token . '-admin', esc_url($this->assets_url) . 'js/admin' . $this->script_suffix . '.js', array('jquery'), $this->_version, true);
+		//wp_register_script($this->_token . '-admin', esc_url($this->assets_url) . 'js/admin' . $this->script_suffix . '.js', array('jquery'), $this->_version, true);
+		wp_register_script($this->_token . '-main', esc_url($this->assets_url) . 'js/main' . $this->script_suffix . '.js', array('jquery'), $this->_version, true);
 
 		wp_enqueue_script($this->_token . '-jqvalidate');
 		wp_enqueue_script($this->_token . '-jqvalidate-uv');
-		wp_enqueue_script($this->_token . '-admin');
+		//wp_enqueue_script($this->_token . '-admin');
+		wp_enqueue_script($this->_token . '-main');
 	}
 }

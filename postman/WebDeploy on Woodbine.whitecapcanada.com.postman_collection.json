@@ -1,0 +1,455 @@
+{
+	"info": {
+		"_postman_id": "95c9214a-863f-474c-9717-04aae2316443",
+		"name": "WebDeploy on Woodbine.whitecapcanada.com",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get Packages",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "woodbine",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "woodbine",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseurl}}/packages/{{apikey}}",
+					"host": [
+						"{{baseurl}}"
+					],
+					"path": [
+						"packages",
+						"{{apikey}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Packages Top 5",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "woodbine",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "woodbine",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseurl}}/packages/5/{{apikey}}",
+					"host": [
+						"{{baseurl}}"
+					],
+					"path": [
+						"packages",
+						"5",
+						"{{apikey}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Version",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "woodbine",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "woodbine",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseurl}}/ver/{{apikey}}",
+					"host": [
+						"{{baseurl}}"
+					],
+					"path": [
+						"ver",
+						"{{apikey}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Generate Password",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "woodbine",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "woodbine",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseurl}}/password/32",
+					"host": [
+						"{{baseurl}}"
+					],
+					"path": [
+						"password",
+						"32"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Deploay a file",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "woodbine",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "woodbine",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": "/D:/Amir/_tip/test/wp-content.zip"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{baseurl}}/deploy/{{apikey}}",
+					"host": [
+						"{{baseurl}}"
+					],
+					"path": [
+						"deploy",
+						"{{apikey}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Details",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "woodbine",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "woodbine",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": "/D:/Amir/_tip/test/wp-content.zip"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{baseurl}}/details/20211105-125108_deployed.zip/{{apikey}}",
+					"host": [
+						"{{baseurl}}"
+					],
+					"path": [
+						"details",
+						"20211105-125108_deployed.zip",
+						"{{apikey}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "woodbine",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "woodbine",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": "/D:/Amir/_tip/test/wp-content.zip"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{baseurl}}/Delete/20211105-125108/{{apikey}}",
+					"host": [
+						"{{baseurl}}"
+					],
+					"path": [
+						"Delete",
+						"20211105-125108",
+						"{{apikey}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Revert",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "woodbine",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "woodbine",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": "/D:/Amir/_tip/test/wp-content.zip"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{baseurl}}/Delete/20211105-125108/{{apikey}}",
+					"host": [
+						"{{baseurl}}"
+					],
+					"path": [
+						"Delete",
+						"20211105-125108",
+						"{{apikey}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Redeploy",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "woodbine",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "woodbine",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": "/D:/Amir/_tip/test/wp-content.zip"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{baseurl}}/redeploy/20211105-081331_backedup.zip/{{apikey}}",
+					"host": [
+						"{{baseurl}}"
+					],
+					"path": [
+						"redeploy",
+						"20211105-081331_backedup.zip",
+						"{{apikey}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Cleanup",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "woodbine",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "woodbine",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": "/D:/Amir/_tip/test/wp-content.zip"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{baseurl}}/redeploy/20211105-081331_backedup.zip/{{apikey}}",
+					"host": [
+						"{{baseurl}}"
+					],
+					"path": [
+						"redeploy",
+						"20211105-081331_backedup.zip",
+						"{{apikey}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "basic",
+		"basic": [
+			{
+				"key": "password",
+				"value": "{{password}}",
+				"type": "string"
+			},
+			{
+				"key": "username",
+				"value": "{{username}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
