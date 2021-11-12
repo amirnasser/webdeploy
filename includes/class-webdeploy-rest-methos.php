@@ -199,13 +199,21 @@ class RestMethods
 	public function rest_packagedetail(WP_REST_Request $request)
 	{
 		ini_set("display_errors", "0");
-		$blogid = get_current_blog_id();
+		
 
 		if (get_option("wpwd_apikey") != $request->get_param("apikey"))
 			wp_send_json_error(array("message" => "Api Key is wrong"));
 
 		$file = $request->get_param("file");
-		wp_send_json_success(Utilities::GetDetail($file));
+		try
+		{
+			$result = Utilities::GetDetail($file);
+			wp_send_json_success($result);
+		}
+		catch(Exception $exp)
+		{
+			wp_send_json_error($exp->getMessage());
+		}
 		wp_die();
 	}
 
@@ -218,7 +226,15 @@ class RestMethods
 			wp_send_json_error(array("message" => "Api Key is wrong"));
 
 		$file = $request->get_param("file");
-		Utilities::Revert($file);
+		try
+		{
+			$result = Utilities::Revert($file);
+			wp_send_json_success($result);
+		}
+		catch(Exception $exp)
+		{
+			wp_send_json_error($exp->getMessage());
+		}
 		wp_die();
 	}
 

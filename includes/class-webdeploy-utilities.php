@@ -94,13 +94,17 @@ class Utilities
 
 		if (!file_exists($path . $packagefile)) {
 			$zipFile = new \PhpZip\ZipFile();
+
+			if(!file_exists($path . $file))
+				throw new Exception("'$file' does not exists.");
+
 			$fz = $zipFile->openfile($path . $file);
 			$ziplist = $fz->getListFiles();
 
 			foreach ($ziplist as $f) {
 				unlink(ABSPATH . $f);
 			}
-			wp_send_json_success(array("message" => "All added files removed.", "files" => $ziplist));
+			return array("message" => "All added files removed.", "files" => $ziplist);
 			wp_die();
 		} else {
 			$zipFile = new \PhpZip\ZipFile();
@@ -117,7 +121,7 @@ class Utilities
 				unlink($path . $dif);
 			}
 
-			wp_send_json_success(Utilities::Unzip($path . $file));
+			return Utilities::Unzip($path . $file);
 		}
 	}
 
@@ -126,6 +130,9 @@ class Utilities
 		$blogid = get_current_blog_id();
 		$zipFile = new \PhpZip\ZipFile();
 		$backuppath = ABSPATH . "wp-content/uploads/backup/$blogid/";
+		if(!file_exists($backuppath . $filename))
+			throw new Exception("'$filename' does not exists.");
+
 		$zipFile->openFile($backuppath . $filename);
 		$list = $zipFile->getListFiles();
 		$result = array_values(array_filter($list, function ($item) {
