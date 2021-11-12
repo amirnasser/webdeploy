@@ -1,5 +1,5 @@
 <?php
-class Utilities
+class WDUtilities
 {
 	public static function Render($instance, $templateName, $values)
 	{

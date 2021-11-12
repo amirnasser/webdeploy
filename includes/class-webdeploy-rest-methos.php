@@ -152,7 +152,7 @@ class RestMethods
 		$filetodeploy = $files["file"];
 
 		try {
-			wp_send_json_success(Utilities::Unzip($filetodeploy["tmp_name"]));
+			wp_send_json_success(WDUtilities::Unzip($filetodeploy["tmp_name"]));
 		} catch (Exception $exp) {
 			wp_send_json_error(array("message" => $exp->getMessage()));
 		}
@@ -166,7 +166,7 @@ class RestMethods
 		if (get_option("wpwd_apikey") != $request->get_param("apikey"))
 			wp_send_json_error(array("message" => "Api Key is wrong"));
 		$limit = $request->get_param("limit") ?? 100;
-		wp_send_json_success(Utilities::GetListOfBackups($limit));
+		wp_send_json_success(WDUtilities::GetListOfBackups($limit));
 		wp_die();
 	}
 
@@ -207,7 +207,7 @@ class RestMethods
 		$file = $request->get_param("file");
 		try
 		{
-			$result = Utilities::GetDetail($file);
+			$result = WDUtilities::GetDetail($file);
 			wp_send_json_success($result);
 		}
 		catch(Exception $exp)
@@ -228,7 +228,7 @@ class RestMethods
 		$file = $request->get_param("file");
 		try
 		{
-			$result = Utilities::Revert($file);
+			$result = WDUtilities::Revert($file);
 			wp_send_json_success($result);
 		}
 		catch(Exception $exp)
@@ -256,7 +256,7 @@ class RestMethods
 
 		$file = $request->get_param("file");
 		try {
-			wp_send_json_success(Utilities::Unzip($path . $file));
+			wp_send_json_success(WDUtilities::Unzip($path . $file));
 		} catch (Exception $exp) {
 			wp_send_json_error(array("message" => $exp->getMessage()));
 		}
@@ -266,7 +266,7 @@ class RestMethods
 	private function rest_generatepassword(WP_REST_Request $request)
 	{
 		$len = $request->get_param("len");
-		wp_send_json_success(Utilities::GeneratePassword($len));
+		wp_send_json_success(WDUtilities::GeneratePassword($len));
 	}
 
 	private function rest_cleanup(WP_REST_Request $request)
@@ -274,7 +274,7 @@ class RestMethods
 		if (get_option("wpwd_apikey") != $request->get_param("apikey"))
 			wp_send_json_error(array("message" => "Api Key is wrong"));
 
-		$resul = Utilities::CleanUp();
+		$resul = WDUtilities::CleanUp();
 
 		if(count($resul))
 		{

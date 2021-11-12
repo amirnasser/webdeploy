@@ -46,7 +46,7 @@ class AjaxMethods
 		$file = $_FILES["wnp_file"]["tmp_name"];
 		
 		try {
-			wp_send_json_success(Utilities::Unzip($file));
+			wp_send_json_success(WDUtilities::Unzip($file));
 		} catch (Exception $exp) {
 			wp_send_json_error(array("message" => $exp->getMessage()));
 		}
@@ -55,31 +55,31 @@ class AjaxMethods
 	public function ajax_list()
 	{
 		$values = array(
-			"backups" => Utilities::GetListOfBackups()
+			"backups" => WDUtilities::GetListOfBackups()
 		);
-		wp_send_json_success(array("html"=>Utilities::Render(self::$_instance->parent, "files.twig", $values)));
+		wp_send_json_success(array("html"=>WDUtilities::Render(self::$_instance->parent, "files.twig", $values)));
 		wp_die();
 	}  
     
 	public function ajax_detail()
 	{
 		$filename = $_REQUEST["filename"];
-		wp_send_json_success(Utilities::GetDetail($filename));
+		wp_send_json_success(WDUtilities::GetDetail($filename));
 	}
 
 	public function ajax_blist()
 	{
-		wp_send_json_success(Utilities::GetListOfBackups());
+		wp_send_json_success(WDUtilities::GetListOfBackups());
 	}
 
 	public function ajax_revert()
 	{
-		Utilities::Revert($_REQUEST["filename"]);
+		WDUtilities::Revert($_REQUEST["filename"]);
 	}
     
 	public function ajax_cleanup()
 	{
-		$arr = Utilities::CleanUp();
+		$arr = WDUtilities::CleanUp();
 		if(count($arr))
 		{
 			wp_send_json_error(array("errors"=>$arr));

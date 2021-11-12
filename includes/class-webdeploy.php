@@ -55,10 +55,10 @@ class WebDeploy
 					$values = array(
 						"ps" => (int)ini_get("post_max_size") . " MB",
 						"uploadmaxfilesize" => ini_get("upload_max_filesize"),
-						"backups" => Utilities::GetListOfBackups(10),
+						"backups" => WDUtilities::GetListOfBackups(10),
 						"siteid" => get_current_blog_id()
 					);
-					echo Utilities::Render(self::$_instance, "deploy_upload.twig", $values);
+					echo WDUtilities::Render(self::$_instance, "deploy_upload.twig", $values);
 				});
 			}
 		});
@@ -67,7 +67,7 @@ class WebDeploy
 			$apikey = get_option("wpwd_apikey");
 			if(strlen($apikey)==0)
 			{
-				$newpassword = Utilities::GeneratePassword(24);
+				$newpassword = WDUtilities::GeneratePassword(24);
 				update_option("wpwd_apikey", $newpassword);
 			}
 		});

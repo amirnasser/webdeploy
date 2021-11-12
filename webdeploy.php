@@ -26,7 +26,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 // Load plugin class files.
-require_once 'includes/class-webdeploy-utilities.php';
+require_once 'includes/class-webdeploy-WDUtilities.php';
 require_once 'includes/class-webdeploy-rest-methos.php';
 require_once 'includes/class-webdeploy-ajax-methods.php';
 require_once 'includes/class-webdeploy-admin-api.php';
