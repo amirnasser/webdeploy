@@ -121,7 +121,7 @@ class wd_utilities
 				unlink($path . $dif);
 			}
 
-			return Utilities::Unzip($path . $file);
+			return wd_utilities::Unzip($path . $file);
 		}
 	}
 
@@ -159,7 +159,7 @@ class wd_utilities
 		$blogid = get_current_blog_id();
 		$root = ABSPATH . "wp-content/uploads/backup/$blogid/";
 
-		$all = Utilities::GetListOfBackups(1000);
+		$all = wd_utilities::GetListOfBackups(1000);
 
 		$dif = array_splice($all, 5);
 		$errors = array();
