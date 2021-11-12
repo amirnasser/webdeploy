@@ -1,5 +1,5 @@
 <?php
-class WDUtilities
+class wd_utilities
 {
 	public static function Render($instance, $templateName, $values)
 	{
