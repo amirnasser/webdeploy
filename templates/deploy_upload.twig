@@ -1,16 +1,18 @@
-<strong>Please select zip deployment package.</strong>
-<div>Maximum Upload File Size:  {{uploadmaxfilesize}}</div>
-<div>Maximum Post Size: {{ ps }}</div>
-<form enctype="multipart/form-data" id="frmpackage">    
-    <br/>
-    <input type="file" name="wnp_file" id="wnp_file" data-rule-required="true" 
-    accept="application/zip"
-    data-msg-required=" Please select a zip file."/><br />
-    <a class="button button-primary" id="btnPackageUpload">Deploy</a>
-    <a class="button button-alert" id="btnCleanup">Clean up</a>
-</form>
-<div id="zip_message"></div>
-<div id="s_message"></div>
-<div id="backups">
-{% include "files.twig" %}
+<div class="webdeploy">
+	<strong>Please select zip deployment package.</strong>
+	<div>Maximum Upload File Size:
+		{{uploadmaxfilesize}}</div>
+	<div>Maximum Post Size:
+		{{ ps }}</div>
+	<form enctype="multipart/form-data" id="frmpackage">
+		<br/>
+		<input type="file" name="wnp_file" id="wnp_file" data-rule-required="true" accept="application/zip" data-msg-required=" Please select a zip file."/><br/>
+		<a class="button button-primary" id="btnPackageUpload">Deploy</a>
+		<a class="button button-alert" id="btnCleanup">Clean up</a>
+	</form>
+	<div id="zip_message"></div>
+	<div id="s_message"></div>
+	<div id="backups">
+		{% include "files.twig" %}
+	</div>
 </div>

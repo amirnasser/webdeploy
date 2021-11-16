@@ -1,70 +1,71 @@
-.error {
-    color: red;
-    display: block;
-}
+.webdeploy
+{
+    .error {
+        color: red;
+        display: block;
+    }
 
-.success {
-    color: green;
-    font-weight: bold;
-    padding: 5px;
-    border: solid 1px;
-    border-radius: 3px;
-    margin: 3px 0;
-    background: #eeffe8;
-}
+    .success {
+        color: green;
+        font-weight: bold;
+        padding: 5px;
+        border: solid 1px;
+        border-radius: 3px;
+        margin: 3px 0;
+        background: #eeffe8;
+    }
 
-.danger{
-    color: #f70505;
-    font-weight: bold;
-    padding: 5px;
-    border: solid 1px;
-    border-radius: 3px;
-    margin: 3px 0;
-    background: #ffe8e8;
-}
+    .danger{
+        color: #f70505;
+        font-weight: bold;
+        padding: 5px;
+        border: solid 1px;
+        border-radius: 3px;
+        margin: 3px 0;
+        background: #ffe8e8;
+    }
 
-.detail, .revert{    
-    list-style: circle;
-    margin-left: 16px; 
-    margin-bottom: 10px;
-    li {
-      margin-bottom: 0;
-    }           
-}
+    .detail, .revert{    
+        list-style: circle;
+        margin-left: 16px; 
+        margin-bottom: 10px;
+        cursor: pointer;
+        li {
+            margin-bottom: 0;
+        }           
+    }
 
-.btndetail{
-    cursor: pointer;
-    position: absolute;
-    right: 0;
-}
+    .btndetail{
+        cursor: pointer;
+        position: absolute;
+        right: 0;
+    }
 
-.file { 
-    width: 212px;
-    display: inline-block;
-}
+    .file { 
+        width: 212px;
+        display: inline-block;
+    }
 
-span.title{
-    width: 70px;
-    display: inline-block;
-    font-weight: bold;
-}
-.files li{
-    margin-bottom: 0;
-}
+    span.title{
+        width: 70px;
+        display: inline-block;
+        font-weight: bold;
+    }
+    .files li{
+        margin-bottom: 0;
+    }
 
-dd, li{
-    margin-bottom: -10px;
-}
+    dd, li{
+        margin-bottom: -10px;
+    }
 
-#backups ul li:first{
-    padding-bottom: 10px;
-}
+    #backups ul li:first{
+        padding-bottom: 10px;
+    }
 
-li.title {
-    padding-bottom: 17px;
-    font-size: 1.1em;
-}
+    li.title {
+        padding-bottom: 17px;
+        font-size: 1.1em;
+    }
 
-.c{
-    //position: relative;
 }

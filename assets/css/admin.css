@@ -1,9 +1,9 @@
-.error {
+.webdeploy .error {
   color: red;
   display: block;
 }
 
-.success {
+.webdeploy .success {
   color: green;
   font-weight: bold;
   padding: 5px;
@@ -13,7 +13,7 @@
   background: #eeffe8;
 }
 
-.danger {
+.webdeploy .danger {
   color: #f70505;
   font-weight: bold;
   padding: 5px;
@@ -23,46 +23,47 @@
   background: #ffe8e8;
 }
 
-.detail, .revert {
+.webdeploy .detail, .webdeploy .revert {
   list-style: circle;
   margin-left: 16px;
   margin-bottom: 10px;
+  cursor: pointer;
 }
 
-.detail li, .revert li {
+.webdeploy .detail li, .webdeploy .revert li {
   margin-bottom: 0;
 }
 
-.btndetail {
+.webdeploy .btndetail {
   cursor: pointer;
   position: absolute;
   right: 0;
 }
 
-.file {
+.webdeploy .file {
   width: 212px;
   display: inline-block;
 }
 
-span.title {
+.webdeploy span.title {
   width: 70px;
   display: inline-block;
   font-weight: bold;
 }
 
-.files li {
+.webdeploy .files li {
   margin-bottom: 0;
 }
 
-dd, li {
+.webdeploy dd, .webdeploy li {
   margin-bottom: -10px;
 }
 
-#backups ul li:first {
+.webdeploy #backups ul li:first {
   padding-bottom: 10px;
 }
 
-li.title {
+.webdeploy li.title {
   padding-bottom: 17px;
   font-size: 1.1em;
 }

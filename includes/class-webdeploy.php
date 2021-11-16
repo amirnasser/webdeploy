@@ -36,9 +36,9 @@ class WebDeploy
 		$this->assets_dir = trailingslashit($this->dir) . 'assets';
 		$this->assets_url = esc_url(trailingslashit(plugins_url('/assets/', $this->file)));
 		$this->script_suffix = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? '' : '.min';
-		add_action('wp_enqueue_scripts', array($this, 'enqueue_styles'), 10);
+		
 		add_action('wp_enqueue_scripts', array($this, 'enqueue_myvar'), 9);
-		add_action('wp_enqueue_scripts', array($this, 'enqueue_scripts'), 10);
+		
 		
 		if (is_admin()) {
 			$this->admin = new Webdeploy_Admin();
